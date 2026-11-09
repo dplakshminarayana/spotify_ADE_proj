@@ -11,6 +11,12 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "current",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"policy": {
@@ -25,7 +31,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT * FROM \n@{pipeline().parameters.schema}.@{pipeline().parameters.table}\nWHERE @{pipeline().parameters.cdc}>\n'@{activity('Lookup_cdc').output.value[0].cdc}''",
+							"value": "SELECT * FROM \n@{pipeline().parameters.schema}.@{pipeline().parameters.table}\nWHERE @{pipeline().parameters.cdc}>\n'@{activity('Lookup_cdc').output.value[0].cdc}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -59,7 +65,15 @@
 				"outputs": [
 					{
 						"referenceName": "Parquet1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "bronze",
+							"folder": "Users",
+							"file": {
+								"value": "@concat(pipeline().parameters.table,'_',variables('current_dt'))",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			},
@@ -98,6 +112,23 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "current",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "current_dt",
+					"value": {
+						"value": "@utcNow()",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"parameters": {
@@ -109,6 +140,11 @@
 			},
 			"cdc": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"current_dt": {
+				"type": "String"
 			}
 		},
 		"annotations": []
