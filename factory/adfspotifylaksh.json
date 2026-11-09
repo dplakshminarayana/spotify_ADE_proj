@@ -1,0 +1,15 @@
+{
+	"name": "adfspotifylaksh",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "55e73140-d7fb-40ba-84d4-b0f978e796fd",
+		"tenantId": "c5d602d9-dbbd-4e78-8d4c-18c24d6640a0"
+	}
+}
