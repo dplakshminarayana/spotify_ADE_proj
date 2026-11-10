@@ -326,10 +326,7 @@
 					{
 						"activity": "loop_for_all_db",
 						"dependencyConditions": [
-							"Succeeded",
-							"Failed",
-							"Skipped",
-							"Completed"
+							"Succeeded"
 						]
 					}
 				],
